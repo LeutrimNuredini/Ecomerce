@@ -1,4 +1,3 @@
-// variables
 const cartBtn = document.querySelector(".cart-btn");
 const closeCartBtn = document.querySelector(".close-cart");
 const clearCartBtn = document.querySelector(".clear-cart");
@@ -10,13 +9,10 @@ const cartContent = document.querySelector(".cart-content");
 const productsDOM = document.querySelector(".products-center");
 const cartLength = document.querySelector("#cartLength");
 
-// cart
 let cart = [];
 
-// buttons
 let buttonsDOM = [];
 
-// products
 class Products {
   async getProducts() {
     try {
@@ -39,7 +35,6 @@ class Products {
   }
 }
 
-// display products
 class UI {
   displayProducts(products) {
     let result = "";
@@ -79,17 +74,16 @@ class UI {
         event.target.innerText = "In Cart";
         event.target.disabled = true;
 
-        // get product from products
         let cartItem = { ...Storage.getProducts(id), amount: 1 };
-        // add product to the cart
+
         cart = [...cart, cartItem];
-        // save cart in local storage
+
         Storage.saveCart(cart);
-        // set cart values
+
         this.cartValues(cart);
-        // display cart item
+
         this.addCartItem(cartItem);
-        // show the cart
+
         this.showCart();
       });
     });
@@ -153,7 +147,6 @@ class UI {
   }
 
   cartLogic() {
-    // clear cart button
     clearCartBtn.addEventListener("click", () => {
       let cartItems = cart.map(item => item.id);
       cartItems.forEach(id => this.removeItem(id));
@@ -163,7 +156,6 @@ class UI {
       }
     });
 
-    // cart functionality
     cartContent.addEventListener("click", event => {
       if (event.target.classList.contains("remove-item")) {
         let removeItem = event.target;
@@ -209,7 +201,6 @@ class UI {
   }
 }
 
-// local storage
 class Storage {
   static saveProducts(products) {
     localStorage.setItem("products", JSON.stringify(products));
@@ -236,10 +227,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const ui = new UI();
   const products = new Products();
 
-  // setup app
   ui.setupAPP();
 
-  // get all products
   products
     .getProducts()
     .then(products => {
